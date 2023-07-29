@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
+#include "A_PathfindingManager.h"
 #include "N_BTTask_PathfinderExperimental.generated.h"
 
 /**
@@ -16,6 +17,10 @@ class KAIJUGAMETEST_API UN_BTTask_PathfinderExperimental : public UBTTask_Blackb
 	GENERATED_BODY()
 public:
 	UN_BTTask_PathfinderExperimental();
+	
+	UPROPERTY(BlueprintReadWrite, Category = "Pathfinding")
+	AA_PathfindingManager* PFMan;
+	
 private:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	virtual FString GetStaticDescription() const override;

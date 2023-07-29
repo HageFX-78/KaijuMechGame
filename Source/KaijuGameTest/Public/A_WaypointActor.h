@@ -17,7 +17,10 @@ struct FWaypointConnection//Struct for each connection to waypoints with state t
 	AA_WaypointActor* ConnectedWaypoint;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pathfinding")
-	bool bIsRoadBlocked;
+	bool bIsRoadBlocked = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pathfinding")
+	int distanceWeighted = 1;//Default 1 for now
 };
 
 UCLASS()
@@ -38,7 +41,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pathfinding")
+	int nodeID;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pathfinding")
 	TArray<FWaypointConnection> ConnectedWaypoints;//Waypoints connected to this specific node
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pathfinding")
+	FString pointName = "default_name";//Waypoints connected to this specific node
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pathfinding")
 	class USceneComponent* DefaultSceneRoot; // Declaration of DefaultSceneRoot component
