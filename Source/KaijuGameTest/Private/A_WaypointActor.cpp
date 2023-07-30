@@ -14,9 +14,8 @@ AA_WaypointActor::AA_WaypointActor()
 	SpriteComponent = CreateDefaultSubobject<UBillboardComponent>(TEXT("SpriteComponent"));
 	SpriteComponent->SetupAttachment(RootComponent);//Set as child of root
 
-	SpriteComponent->SetHiddenInGame(false);
-
 	SpriteComponent->SetWorldScale3D(FVector(10.f, 10.f, 10.f));
+	SpriteComponent->SetHiddenInGame(true);
 }
 
 // Called when the game starts or when spawned

@@ -7,7 +7,10 @@
 #include "A_PathfindingManager.h"
 #include "A_WaypointActor.h"
 #include "NavigationSystem.h"
+#include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "NewCustomPathArray.h"
+#include "Navigation/PathFollowingComponent.h"
 
 UN_BTTask_PathfinderExperimental::UN_BTTask_PathfinderExperimental()
 {
@@ -16,29 +19,21 @@ UN_BTTask_PathfinderExperimental::UN_BTTask_PathfinderExperimental()
 
 EBTNodeResult::Type UN_BTTask_PathfinderExperimental::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	//Get blackboard
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
 	if (!Blackboard)
 	{
 		return EBTNodeResult::Failed;
 	}
-	//Reference pathfinder manager singleton
+
+	
+	//Reference pathfinder manager
 	PFMan = Cast<AA_PathfindingManager>(Blackboard->GetValueAsObject(TEXT("PFManager")));
 	if (!PFMan)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("PFM not found, maybe not in scene"));
 		return EBTNodeResult::Failed;
 	}
-	
-	
-	/*// Get the AI controller and blackboard component
-	AAIController* aiContoller = OwnerComp.GetAIOwner();
-	const APawn* AIPawn = aiContoller->GetPawn();
-	if (!aiContoller)
-	{
-		return EBTNodeResult::Failed;
-	}*/
-
-	//Black board component
 	
 
 	// Get the StartWaypoint and TargetWaypoint from blackboard
@@ -51,27 +46,32 @@ EBTNodeResult::Type UN_BTTask_PathfinderExperimental::ExecuteTask(UBehaviorTreeC
 		return EBTNodeResult::Failed;
 	}
 
-	// Uses built in Nav system and Navmesh, the reason i avoided blueprints in the firstplace
-	// TArray<FVector> Path;
-	// const UNavigationSystemV1* navSys = UNavigationSystemV1::GetCurrent(AIPawn->GetWorld());
-	/*if (navSys)
-	{
-		
-	}*/
 
+	
+	//Use findpath function from pathfindingmanager
 	TArray<AA_WaypointActor*> Path = PFMan->FindPath(StartPoint, TargetPoint);
 
+
+	
+	//Debug log only
 	FString ConcatenatedNames;
 	for (AA_WaypointActor* wp : Path)
 	{
 		ConcatenatedNames += wp->pointName + TEXT("->"); // Add the waypoint name and a comma-space separator
 	}
-
-	// Print the concatenated names to the log using AddOnScreenDebugMessage
 	GEngine->AddOnScreenDebugMessage(5, 10.f, FColor::Green, FString::Printf(TEXT("Path: %s"), *ConcatenatedNames));
+
+
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - Movement logic here!!!! - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// Too tired to do it now
+	UNewCustomPathArray* CustomWaypointArray = NewObject<UNewCustomPathArray>();
+	CustomWaypointArray->ArrayPath = Path;
+	
+	Blackboard->SetValueAsObject(TEXT("PathToTarget"), CustomWaypointArray);
 	
 	// Store the resulting path in the blackboard
-	//Blackboard->SetValueAsVector(TEXT("PathToTarget"), Path);
+	Blackboard->SetValueAsBool(TEXT("pathfindingReady"), false);
 	return EBTNodeResult::Succeeded;
 }
 
