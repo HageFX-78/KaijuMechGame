@@ -51,7 +51,12 @@ EBTNodeResult::Type UN_BTTask_PathfinderExperimental::ExecuteTask(UBehaviorTreeC
 	//Use findpath function from pathfindingmanager
 	TArray<AA_WaypointActor*> Path = PFMan->FindPath(StartPoint, TargetPoint);
 
-
+	if(Path.IsEmpty())
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Red, TEXT("PATH IS EMPTY"));
+		return EBTNodeResult::Failed;
+	}
+	
 	
 	//Debug log only
 	FString ConcatenatedNames;
@@ -71,7 +76,7 @@ EBTNodeResult::Type UN_BTTask_PathfinderExperimental::ExecuteTask(UBehaviorTreeC
 	Blackboard->SetValueAsObject(TEXT("PathToTarget"), CustomWaypointArray);
 	
 	// Store the resulting path in the blackboard
-	Blackboard->SetValueAsBool(TEXT("pathfindingReady"), false);
+	//Blackboard->SetValueAsBool(TEXT("pathfindingReady"), false);
 	return EBTNodeResult::Succeeded;
 }
 
