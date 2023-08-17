@@ -59,12 +59,12 @@ EBTNodeResult::Type UN_BTTask_PathfinderExperimental::ExecuteTask(UBehaviorTreeC
 	
 	
 	//Debug log only
-	FString ConcatenatedNames;
+	/*FString ConcatenatedNames;
 	for (AA_WaypointActor* wp : Path)
 	{
 		ConcatenatedNames += wp->pointName + TEXT("->"); // Add the waypoint name and a comma-space separator
 	}
-	GEngine->AddOnScreenDebugMessage(5, 10.f, FColor::Green, FString::Printf(TEXT("Path: %s"), *ConcatenatedNames));
+	GEngine->AddOnScreenDebugMessage(5, 10.f, FColor::Green, FString::Printf(TEXT("Path: %s"), *ConcatenatedNames));*/
 
 
 

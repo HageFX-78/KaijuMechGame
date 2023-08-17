@@ -39,7 +39,7 @@ void AA_PathfindingManager::FindAllWaypoints()//Find all waypoints to reference 
 		if (thisWaypoint)
 		{
 			AllWaypoints.Add(thisWaypoint);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("Added a waypoint with count: %d"), AllWaypoints.Num()));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("Added a waypoint with count: %d"), AllWaypoints.Num()));
 		}
 	}
 }
@@ -57,7 +57,7 @@ TArray<AA_WaypointActor*> AA_PathfindingManager::FindPath(AA_WaypointActor* Star
 	
 	for (AA_WaypointActor* thisWp : AllWaypoints)
 	{
-		GEngine->AddOnScreenDebugMessage(7, 2.f, FColor::Purple, TEXT("Added distance and parrent map"));
+		//GEngine->AddOnScreenDebugMessage(7, 2.f, FColor::Purple, TEXT("Added distance and parrent map"));
 		DistanceMap.Add(thisWp, 999999);
 		ParentMap.Add(thisWp, nullptr);
 	}
@@ -94,7 +94,6 @@ TArray<AA_WaypointActor*> AA_PathfindingManager::FindPath(AA_WaypointActor* Star
 			}
 		}
 
-		// If we didn't find a valid waypoint, break the loop
 		if (!CurrentWaypoint)
 		{
 			GEngine->AddOnScreenDebugMessage(10, 5.f, FColor::White, TEXT("Cant seem to find path or smtg broke"));
@@ -125,7 +124,7 @@ TArray<AA_WaypointActor*> AA_PathfindingManager::FindPath(AA_WaypointActor* Star
 		resultPath.Insert(tPoint, 0);//First goes all the way back
 		tPoint = ParentMap[tPoint];
 	}
-	GEngine->AddOnScreenDebugMessage(10, 5.f, FColor::White, TEXT("Path returned!"));
+	//GEngine->AddOnScreenDebugMessage(10, 5.f, FColor::White, TEXT("Path returned!"));
 	return resultPath;
 }
 
